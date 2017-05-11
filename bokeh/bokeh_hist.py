@@ -1,11 +1,11 @@
 ''' 
 Use the ``bokeh serve`` command to run the example by executing:
 
-    bokeh serve bokeh_hist.py
+    bokeh serve --port=8002 --allow-websocket-origin=seekyourface.com:8002 bokeh_hist.py
 
 at your command prompt. Then navigate to the URL
 
-    http://localhost:5006/bokeh_hist
+    http://seekyourface.com:8002/bokeh_hist
 
 in your browser.
 

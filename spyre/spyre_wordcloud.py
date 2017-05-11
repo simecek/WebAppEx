@@ -61,21 +61,22 @@ class WCApp(server.App):
    
     def getData(self):
         regex = re.compile(r"(\b[-']\b)|[\W_]+")
-        english_stopwords = set(stopwords.words('english'))
+        english_stopwords = set([s.encode("utf-8") for s in stopwords.words('english')])
         if self.upload_data is not None:
-            txt = str(self.upload_data.decode("utf-8"))
+            txt = str(self.upload_data.encode("utf-8"))
             txt = regex.sub(" ", txt).lower()
         return txt, english_stopwords
 
     def getPlot(self, params):
         txt, english_stopwords = self.getData()
-        wc_mask = np.array(Image.open("../data/python.png"))
+        img = Image.open("/home/ubuntu/WebAppEx/data/python.png")
+        wc_mask = np.array(img.convert("L").getdata()).reshape(img.size[0],img.size[1])
         limit = int(params['lim'])
 
         wordcloud = WordCloud(
             max_words=limit,
             stopwords=english_stopwords,
-            mask=wc_mask,
+            mask = wc_mask,
         ).generate(txt)
        
         fig = plt.figure()
@@ -87,4 +88,4 @@ class WCApp(server.App):
 
 if __name__ == '__main__':
     app = WCApp()
-    app.launch()
+    app.launch(host="0.0.0.0", port=8003)

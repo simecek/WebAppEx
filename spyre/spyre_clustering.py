@@ -69,4 +69,4 @@ class IrissApp(server.App):
 
 if __name__ == '__main__':
     app = IrissApp()
-    app.launch()
+    app.launch(host="0.0.0.0", port=8001)
